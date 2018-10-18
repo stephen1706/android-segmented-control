@@ -22,6 +22,3 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:support-annotations:23.2.0'
 }
-
-// Used to push in maven
-apply from: '../maven_push.gradle'
