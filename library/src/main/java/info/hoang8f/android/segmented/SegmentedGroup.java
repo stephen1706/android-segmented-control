@@ -29,6 +29,8 @@ public class SegmentedGroup extends RadioGroup {
     private int mTintColor;
     private int mUnCheckedTintColor;
     private int mCheckedTextColor = Color.WHITE;
+    private int mUnCheckedTextColor;
+
     private LayoutSelector mLayoutSelector;
     private Float mCornerRadius;
     private OnCheckedChangeListener mCheckedChangeListener;
@@ -40,6 +42,7 @@ public class SegmentedGroup extends RadioGroup {
         resources = getResources();
         mTintColor = resources.getColor(R.color.radio_button_selected_color);
         mUnCheckedTintColor = resources.getColor(R.color.radio_button_unselected_color);
+        mUnCheckedTextColor = resources.getColor(R.color.radio_button_unselected_text_color);
         mMarginDp = (int) getResources().getDimension(R.dimen.radio_button_stroke_border);
         mCornerRadius = getResources().getDimension(R.dimen.radio_button_conner_radius);
         mLayoutSelector = new LayoutSelector(mCornerRadius);
@@ -50,6 +53,7 @@ public class SegmentedGroup extends RadioGroup {
         resources = getResources();
         mTintColor = resources.getColor(R.color.radio_button_selected_color);
         mUnCheckedTintColor = resources.getColor(R.color.radio_button_unselected_color);
+        mUnCheckedTextColor = resources.getColor(R.color.radio_button_unselected_text_color);
         mMarginDp = (int) getResources().getDimension(R.dimen.radio_button_stroke_border);
         mCornerRadius = getResources().getDimension(R.dimen.radio_button_conner_radius);
         initAttrs(attrs);
@@ -83,6 +87,10 @@ public class SegmentedGroup extends RadioGroup {
             mUnCheckedTintColor = typedArray.getColor(
                     R.styleable.SegmentedGroup_sc_unchecked_tint_color,
                     getResources().getColor(R.color.radio_button_unselected_color));
+
+            mUnCheckedTextColor = typedArray.getColor(
+                    R.styleable.SegmentedGroup_sc_unchecked_text_color,
+                    getResources().getColor(R.color.radio_button_unselected_text_color));
         } finally {
             typedArray.recycle();
         }
@@ -92,6 +100,11 @@ public class SegmentedGroup extends RadioGroup {
     protected void onFinishInflate() {
         super.onFinishInflate();
         //Use holo light for default
+        updateBackground();
+    }
+
+    public void setUnCheckedTextColor(int unCheckedTextColor) {
+        mUnCheckedTextColor = unCheckedTextColor;
         updateBackground();
     }
 
@@ -140,7 +153,7 @@ public class SegmentedGroup extends RadioGroup {
         ColorStateList colorStateList = new ColorStateList(new int[][]{
                 {-android.R.attr.state_checked},
                 {android.R.attr.state_checked}},
-                new int[]{mTintColor, mCheckedTextColor});
+                new int[]{mUnCheckedTextColor, mCheckedTextColor});
         ((Button) view).setTextColor(colorStateList);
 
         //Redraw with tint color
